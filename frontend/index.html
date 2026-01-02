@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCERT Gamified | Fun Learning</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="candy-bg">
+    <div id="app">
+        <!-- Login Section -->
+        <section id="login-section" class="screen active">
+            <div class="card bounce-in">
+                <div class="logo-container">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" alt="Logo" class="floating-logo">
+                    <h1>NCERT Adventure</h1>
+                </div>
+
+                <div id="auth-form-container">
+                    <div id="login-form">
+                        <input type="text" id="student-name" placeholder="Student Name" class="game-input">
+                        <select id="student-class" class="game-input">
+                            <option value="">Select Class</option>
+                            <option value="6">Class 6</option>
+                            <option value="7">Class 7</option>
+                            <option value="8">Class 8</option>
+                            <option value="9">Class 9</option>
+                            <option value="10">Class 10</option>
+                        </select>
+                        <select id="user-role" class="game-input">
+                            <option value="student">I am a Student</option>
+                            <option value="teacher">I am a Teacher</option>
+                        </select>
+                        <input type="email" id="student-email" placeholder="Email ID" class="game-input">
+                        <button id="send-otp-btn" class="game-btn primary-btn">Send OTP</button>
+                    </div>
+
+                    <div id="otp-form" class="hidden">
+                        <p class="info-msg">Enter the code sent to your email</p>
+                        <div class="otp-inputs">
+                            <input type="text" maxlength="6" id="otp-code" placeholder="XXXXXX"
+                                class="game-input otp-field">
+                        </div>
+                        <button id="verify-otp-btn" class="game-btn secondary-btn">Verify & Start</button>
+                    </div>
+                </div>
+
+                <p id="auth-msg" class="status-msg"></p>
+            </div>
+        </section>
+
+        <!-- Subject Selection -->
+        <section id="subject-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>Choose Your Quest</h2>
+            </div>
+            <div id="subject-search-container" style="padding: 100px 20px 0; width: 100%; max-width: 800px;">
+                <input type="text" id="topic-search" placeholder="🔍 Search for a topic (e.g. food, science...)"
+                    class="game-input">
+                <div id="search-results" class="hidden"
+                    style="background: #fff; border-radius: 15px; padding: 10px; margin-top:-10px; box-shadow: var(--shadow);">
+                </div>
+            </div>
+            <div id="subject-list" class="grid" style="padding-top: 20px;">
+                <!-- Subject cards injected here -->
+            </div>
+        </section>
+
+        <!-- Game Map -->
+        <section id="map-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2 id="current-subject-name">Subject Map</h2>
+                <div class="user-stats">
+                    <span id="user-stars">⭐ 0</span>
+                    <button class="game-btn secondary-btn" style="width:auto; padding: 5px 10px; font-size: 0.8rem;"
+                        onclick="loadLeaderboard()">🏆 Leaders</button>
+                    <button class="game-btn primary-btn" style="width:auto; padding: 5px 10px; font-size: 0.8rem;"
+                        onclick="loadProfile()">👤 Me</button>
+                </div>
+            </div>
+            <div id="game-map" class="map-container">
+                <!-- Level nodes injected here -->
+            </div>
+        </section>
+
+        <!-- Puzzle Section -->
+        <section id="puzzle-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>Puzzle Time!</h2>
+            </div>
+            <div class="card puzzle-card bounce-in">
+                <p id="puzzle-instruction">Drag the labels to the correct boxes!</p>
+                <div id="puzzle-items" class="puzzle-area"></div>
+                <div id="puzzle-targets" class="puzzle-targets"></div>
+                <div id="crossword-container" class="hidden"
+                    style="display:grid; grid-template-columns: repeat(5, 40px); gap:5px; justify-content:center; margin:20px 0;">
+                </div>
+                <button class="game-btn primary-btn" onclick="checkPuzzle()">Check Puzzle</button>
+                <p id="puzzle-msg" class="status-msg"></p>
+            </div>
+        </section>
+
+        <!-- Learning & Quiz Section -->
+        <section id="quiz-section" class="screen">
+            <div class="quiz-container card">
+                <div id="quiz-header">
+                    <h3 id="topic-title">Topic Name</h3>
+                    <div id="timer" class="hidden">⏱️ 30s</div>
+                </div>
+                <div id="learning-content" class="theory-view">
+                    <!-- Theory injected here -->
+                    <button id="start-quiz-btn" class="game-btn primary-btn">Start Quiz!</button>
+                </div>
+                <div id="question-view" class="hidden">
+                    <p id="question-text">Question?</p>
+                    <div id="options-list"></div>
+                </div>
+                <div id="quiz-result" class="hidden">
+                    <h2 id="result-title">Good Job!</h2>
+                    <div id="result-stars"></div>
+                    <p id="result-msg"></p>
+                    <button class="game-btn secondary-btn" onclick="showScreen('map-section')">Back to Map</button>
+                </div>
+            </div>
+        </section>
+        <!-- Leaderboard -->
+        <section id="leaderboard-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>Top Champions</h2>
+            </div>
+            <div class="card leaderboard-card">
+                <div id="leaderboard-list">
+                    <!-- Ranks injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Teacher Dashboard -->
+        <section id="teacher-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>Teacher Central</h2>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h3>Create New Quiz Item</h3>
+                    <select id="t-topic" class="game-input">
+                        <!-- Topics injected here -->
+                    </select>
+                    <input type="text" id="t-q-text" placeholder="Question Text" class="game-input">
+                    <input type="text" id="t-opt1" placeholder="Option 1" class="game-input">
+                    <input type="text" id="t-opt2" placeholder="Option 2" class="game-input">
+                    <input type="text" id="t-opt3" placeholder="Option 3" class="game-input">
+                    <input type="text" id="t-opt4" placeholder="Option 4" class="game-input">
+                    <input type="number" id="t-correct" placeholder="Correct Option (0-3)" class="game-input">
+                    <button class="game-btn primary-btn" onclick="addQuestion()">Add Question</button>
+                </div>
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3>Student Progress</h3>
+                        <label style="font-size:0.8rem;"><input type="checkbox" id="live-refresh"> Live Refresh
+                            🔄</label>
+                    </div>
+                    <div id="student-stats-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Page -->
+        <section id="profile-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>My Passport</h2>
+            </div>
+            <div class="card profile-card bounce-in">
+                <div class="avatar-selection">
+                    <img id="current-avatar" src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png" alt="Avatar"
+                        class="profile-img">
+                    <div class="avatar-grid">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png"
+                            onclick="setAvatar(this.src)">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png"
+                            onclick="setAvatar(this.src)">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png"
+                            onclick="setAvatar(this.src)">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+                            onclick="setAvatar(this.src)">
+                    </div>
+                </div>
+                <h3 id="profile-name">Student Name</h3>
+                <p id="profile-email">email@example.com</p>
+                <div class="stats-box">
+                    <div><span>⭐ Stars</span>
+                        <h4 id="profile-stars">0</h4>
+                    </div>
+                    <div><span>🏅 Badges</span>
+                        <h4 id="profile-badges">0</h4>
+                    </div>
+                </div>
+                <button class="game-btn secondary-btn" onclick="showScreen('feedback-section')">Give Feedback</button>
+                <button class="game-btn secondary-btn" onclick="showScreen('about-section')"
+                    style="background:var(--purple-color); color:#fff; border:none;">About Platform</button>
+                <button class="game-btn primary-btn" onclick="logout()">Logout</button>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>About NCERT Quest</h2>
+            </div>
+            <div class="card about-card bounce-in">
+                <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png"
+                    style="width:80px; margin-bottom:15px;">
+                <h3>Empowering Class 6-10</h3>
+                <p>Welcome to the ultimate gamified learning companion! Built for the Smart India Hackathon, this
+                    platform transforms boring textbooks into an epic adventure.</p>
+                <ul style="text-align:left; line-height:2;">
+                    <li>🎯 NCERT Syllabus Coverage</li>
+                    <li>⭐ Progress Tracking</li>
+                    <li>🤖 AI-Powered Doubts Solving</li>
+                    <li>🏆 Global Leaderboards</li>
+                </ul>
+                <p style="font-size:0.8rem; color:#999; margin-top:20px;">v1.0.0 | Made with ❤️ for Students</p>
+            </div>
+        </section>
+
+        <!-- Feedback Page -->
+        <section id="feedback-section" class="screen">
+            <div class="header">
+                <button class="back-btn">←</button>
+                <h2>Your Voice Matters</h2>
+            </div>
+            <div class="card feedback-card bounce-in">
+                <p>Did you enjoy your quest today?</p>
+                <textarea id="feedback-text" class="game-input" placeholder="Tell us more..." rows="4"></textarea>
+                <div class="rating-stars">
+                    <span onclick="setRating(1)">⭐</span>
+                    <span onclick="setRating(2)">⭐</span>
+                    <span onclick="setRating(3)">⭐</span>
+                    <span onclick="setRating(4)">⭐</span>
+                    <span onclick="setRating(5)">⭐</span>
+                </div>
+                <button class="game-btn primary-btn" onclick="submitFeedback()">Send Feedback</button>
+                <p id="feedback-msg" class="status-msg"></p>
+            </div>
+        </section>
+
+        <!-- AI Chat -->
+        <div id="ai-chat-toggle">🤖</div>
+        <div id="ai-chat-window" class="hidden">
+            <div class="chat-header">
+                <span>AI Teacher</span>
+                <button id="close-chat">×</button>
+            </div>
+            <div id="chat-messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="ai-input" placeholder="Ask a doubt...">
+                <button id="send-ai-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
